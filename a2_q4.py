@@ -41,28 +41,42 @@ def check_teams(graph, csp_sol):
 	return True
 
 def run_q4():
-	graphs = [rand_graph(100, 0.1)] # Test
-	for i in range(len(graphs)):
-		result = {}
-		variable = list(graphs[i].keys())
-		domain = {}
-		varLenth = len(variable)
-		l = []
-		timer = 0
-		for j in range(varLenth):
-			domain[j] = variable
-		start_time = time.time()
-		csp = CSP(variable, domain, graphs[i], different_values_constraint)
-		result = min_conflicts(csp)
-		elapsed_time = time.time() - start_time
+	for run in range(5):
+		print(f'Run: {run}')
+		graphs = [rand_graph(100, 0.1), rand_graph(100, 0.2), rand_graph(100, 0.3), rand_graph(100, 0.4), rand_graph(100, 0.5)]
+		for i in range(len(graphs)):
+			result = {}
+			variable = list(graphs[i].keys())
+			domain = {}
+			domainLen = 0
+			varLenth = len(variable)
+			timer = 0
+			start_time = time.time()
+			while domainLen <= varLenth:
+				l = []
+				for j in range(domainLen):
+					l.append(j)
+				for k in range(varLenth):
+					domain[k] = l
+			
+				csp = CSP(variable, domain, graphs[i], different_values_constraint)
+				try:
+					result = min_conflicts(csp)
+				except:
+					domainLen += 10
+					continue
 
-		if result != None:
-			timer = elapsed_time
-			print(f'Total of assign: {csp.nassigns}')
-			if check_teams(graphs[i], result):
-				print(f'elapsed time (in seconds): {timer}')
-				print(result)
-				print()
+				if bool(result):
+					elapsed_time = time.time() - start_time
+					timer = elapsed_time
+					if check_teams(graphs[i], result):
+						print(f'Total of assign: {csp.nassigns}')
+						print(f'elapsed time (in seconds): {timer}')
+						# print(result)
+						print()
+						break
+				else:
+					domainLen += 10
 
 	return
 
