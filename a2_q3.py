@@ -56,8 +56,7 @@ def countGroup(csp_sol):
 
 def run_q3():
 	for i in range(5):
-		graphs = [rand_graph(30, 0.1), rand_graph(30, 0.2), rand_graph(30, 0.3), rand_graph(30, 0.4), rand_graph(30, 0.5)]
-		# graphs = [rand_graph(30, 0.1)] # Test
+		graphs = [rand_graph(30, 0.1), rand_graph(30, 0.2), rand_graph(30, 0.3), rand_graph(30, 0.4), rand_graph(30, 0.5)]		
 		for i in range(len(graphs)):
 			result = {}
 			variable = list(graphs[i].keys())
@@ -70,7 +69,7 @@ def run_q3():
 
 			# # max domain
 			# for j in range(varLenth):
-			# 	domain[j] = variable
+			# 	domain[j] = variabl
 			# start_time = time.time()
 			# csp = CSP(variable, domain, graphs[i], different_values_constraint)
 			# result = backtracking_search(csp)
@@ -78,25 +77,27 @@ def run_q3():
 			# timer = elapsed_time
 			# print(csp.nassigns)
 			
+			start_time = time.time()
 			for j in range(varLenth):
 				l.append(j)
+				
 				for k in range(varLenth):
-					domain[k] = l
-				start_time = time.time()
+					domain[k] = l				
 				csp = CSP(variable, domain, graphs[i], different_values_constraint)
-				result = backtracking_search(csp)
-				# result = backtracking_search(CSP(variable, domain, graphs[i], different_values_constraint))
-				elapsed_time = time.time() - start_time
-				if result != None:
+				# result = backtracking_search(csp)
+				try:
+					result = min_conflicts(csp)
+				except:
+					continue
+				if bool(result):
+					elapsed_time = time.time() - start_time
 					timer = elapsed_time
 					print(csp.nassigns)
+					# if check_teams(graphs[i], result):
+					countGroup(result)
+					print(f'elapsed time (in seconds): {timer}')
+					print()
 					break
-
-			# if check_teams(graphs[i], result):
-			countGroup(result)
-			print(f'elapsed time (in seconds): {timer}')
-			print(result)
-			print()
 		
 	return
 
