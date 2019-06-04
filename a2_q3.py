@@ -8,15 +8,10 @@ def rand_graph(n, p):
 		graph[i] =[]
 
 	for i in range(n):
-		for j in range(n):
-			if i != j:
-				if p > random.random():
-					if j not in graph[i]:
-						graph[i].append(j)
-						graph[i].sort()
-					if i not in graph[j]:
-						graph[j].append(i)
-						graph[j].sort() 
+		for j in range(i+1, n):
+			if p > random.random():
+				graph[i].append(j)
+				graph[j].append(i)
 
 	return graph
 
@@ -55,50 +50,24 @@ def countGroup(csp_sol):
 	return
 
 def run_q3():
-	for i in range(5):
+	for i in range(1):
+		print(f'Run: {i}')
 		graphs = [rand_graph(30, 0.1), rand_graph(30, 0.2), rand_graph(30, 0.3), rand_graph(30, 0.4), rand_graph(30, 0.5)]		
-		for i in range(len(graphs)):
-			result = {}
-			variable = list(graphs[i].keys())
-			domain = {}
-			varLenth = len(variable)
-			l = []
-			timer = 0
-			for j in range(varLenth):
-				domain[j] = []
-
-			# # max domain
-			# for j in range(varLenth):
-			# 	domain[j] = variabl
-			# start_time = time.time()
-			# csp = CSP(variable, domain, graphs[i], different_values_constraint)
-			# result = backtracking_search(csp)
-			# elapsed_time = time.time() - start_time
-			# timer = elapsed_time
-			# print(csp.nassigns)
-			
+		for graph in graphs:
 			start_time = time.time()
-			for j in range(varLenth):
-				l.append(j)
-				
-				for k in range(varLenth):
-					domain[k] = l				
-				csp = CSP(variable, domain, graphs[i], different_values_constraint)
-				# result = backtracking_search(csp)
-				try:
-					result = min_conflicts(csp)
-				except:
-					continue
-				if bool(result):
+			for j in range(30):
+				domain = list(range(j))
+				csp = MapColoringCSP(domain, graph)
+				result = backtracking_search(csp, select_unassigned_variable=mrv, inference=forward_checking)
+				if result != None:
 					elapsed_time = time.time() - start_time
 					timer = elapsed_time
-					print(csp.nassigns)
+					print(f'Assigned: {csp.nassigns}')
+					# print(f'Unassigned: {}')
 					# if check_teams(graphs[i], result):
-					countGroup(result)
 					print(f'elapsed time (in seconds): {timer}')
 					print()
-					break
-		
+					break	
 	return
 
 def main():

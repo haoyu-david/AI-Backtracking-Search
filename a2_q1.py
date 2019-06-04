@@ -6,15 +6,10 @@ def rand_graph(n, p):
 		graph[i] =[]
 
 	for i in range(n):
-		for j in range(n):
-			if i != j:
-				if p > random.random():
-					if j not in graph[i]:
-						graph[i].append(j)
-						graph[i].sort()
-					if i not in graph[j]:
-						graph[j].append(i)
-						graph[j].sort() 
+		for j in range(i+1, n):
+			if p > random.random():
+				graph[i].append(j)
+				graph[j].append(i)
 
 	return graph
 

@@ -72,6 +72,7 @@ class CSP(search.Problem):
         if var in assignment:
             del assignment[var]
 
+
     def nconflicts(self, var, val, assignment):
         """Return the number of conflicts var=val has with other variables."""
         # Subclasses may implement this more efficiently
