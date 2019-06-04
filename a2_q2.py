@@ -1,21 +1,9 @@
 def check_teams(graph, csp_sol):
-	groups={}
-	for i in range(len(graph)):
-		groups[i] = []
-	for key, value in csp_sol.items():
-		groups[value].append(key)
-		groups[value].sort()
-	for i in range(len(graph)):
-		if groups[i] == []:
-			groups.pop(i)
-
-	for key, value in groups.items():
-		for i in value:
-			for j in value:
-				if i != j:
-					if graph[i].count(j) != 0:
-						return False
-
+	for i in csp_sol:
+		for j in csp_sol:
+			if i != j and csp_sol.get(i) == csp_sol.get(j):
+				if graph.get(i).count(j) > 0:
+					return False
 	return True
 
 def main():
