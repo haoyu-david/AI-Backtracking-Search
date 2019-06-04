@@ -29,6 +29,11 @@ def run_q3():
 		print(f'Run: {i}')
 		graphs = [rand_graph(30, 0.1), rand_graph(30, 0.2), rand_graph(30, 0.3), rand_graph(30, 0.4), rand_graph(30, 0.5)]		
 		for graph in graphs:
+			# empty = 0
+			# for n in range(len(graph)):
+			# 	if graph[n] == []:
+			# 		empty += 1
+			# print(f'Person has no friends: {empty}')
 			start_time = time.time()
 			for j in range(30):
 				domain = list(range(j))
