@@ -59,7 +59,7 @@ class CSP(search.Problem):
         self.initial = ()
         self.curr_domains = None
         self.nassigns = 0
-        self.unassigns = 0
+        # self.unassigns = 0
 
 
     def assign(self, var, val, assignment):
@@ -73,7 +73,7 @@ class CSP(search.Problem):
         just call assign for that."""
         if var in assignment:
             del assignment[var]
-        self.unassigns += 1
+        # self.unassigns += 1
 
     def nconflicts(self, var, val, assignment):
         """Return the number of conflicts var=val has with other variables."""
